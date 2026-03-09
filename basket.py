@@ -15,7 +15,7 @@ class Basket:
         self.screen.blit(self.basket_image, self.basket_rect)
 
     def moveBasket(self):
-        if self.moving_left:
+        if self.moving_left and self.basket_rect.left > 0:
             self.basket_rect.x -= 1
-        elif self.moving_right:
+        elif self.moving_right and self.basket_rect.right < 1200:
             self.basket_rect.x += 1
