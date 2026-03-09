@@ -21,10 +21,24 @@ class BasketGame:
             if event.type == pygame.QUIT:
                 pygame.quit
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit
+                    sys.exit()
+                elif event.key == pygame.K_LEFT:
+                    self.basket.moving_left = True
+                elif event.key == pygame.K_RIGHT:
+                    self.basket.moving_right = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    self.basket.moving_left = False
+                if event.key == pygame.K_RIGHT:
+                    self.basket.moving_right = False
 
     def run_game(self):
         while True:
             self._manage_events()
+            self.basket.moveBasket()
             self._update_screen()
             self.clock.tick(60)
 
