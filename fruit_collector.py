@@ -3,6 +3,7 @@ import pygame
 import random
 from catcher import Catcher
 from fruit import Fruit
+from explosion import Explosion
 
 # <a href='https://pngtree.com/freepng/pretty-catcher_48522.html'>png image from pngtree.com/</a>
 
@@ -12,12 +13,14 @@ class FruitCollectorGame:
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((1200, 800))
         self.catcher = Catcher(self)
+        self.explosions = []
         self.fruits = []
         self.spawn_fruit = pygame.USEREVENT + 1 # rozne identyfikatory eventow
         pygame.time.set_timer(self.spawn_fruit, 1000)
         self.apple_img = pygame.image.load('./images/apple.png')
         self.banana_img = pygame.image.load('./images/banana.png')
-        self.fruit_type = [self.apple_img, self.banana_img]
+        self.bomb_img = pygame.image.load('./images/bomb.png')
+        self.fruit_type = [self.apple_img, self.banana_img, self.bomb_img]
 
     def _spawn_fruits(self):
         fruit_data = random.choice([
@@ -26,10 +29,15 @@ class FruitCollectorGame:
                 "points": 10,
                 "type": "apple"
             },
-                {
+            {
                 "image": self.banana_img,
                 "points": 20,
                 "type": "banana"
+            },
+                    {
+                "image": self.bomb_img,
+                "points": -50,
+                "type": "bomb"
             },
             ])
         self.fruits.append(Fruit(self, fruit_data))
@@ -37,6 +45,8 @@ class FruitCollectorGame:
     def _check_collisions(self):
         for fruit in self.fruits[:]:
             if self.catcher.catcher_rect.colliderect(fruit.fruit_rect):
+                if fruit.type == 'bomb':
+                    self.explosions.append(Explosion(self, fruit.fruit_rect.centerx, fruit.fruit_rect.centery))
                 self.fruits.remove(fruit)
 
 
@@ -45,6 +55,11 @@ class FruitCollectorGame:
         self.catcher.blit_catcher()
         for fruit in self.fruits:
             fruit.blit_fruit()
+        for explosion in self.explosions:
+            if explosion.is_alive():
+                explosion.blit_boom()
+            else:
+                self.explosions.remove(explosion)
         pygame.display.flip()
 
     def _manage_events(self):

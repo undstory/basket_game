@@ -2,8 +2,8 @@ import pygame
 import random
 
 class Fruit:
-    def __init__(self, gb_game, data):
-        self.screen = gb_game.screen
+    def __init__(self, bg_game, data):
+        self.screen = bg_game.screen
         self.image = data["image"]
         self.fruit_image = pygame.transform.scale(self.image, (60, 60))
         self.points = data["points"]
