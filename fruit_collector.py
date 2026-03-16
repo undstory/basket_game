@@ -15,13 +15,29 @@ class FruitCollectorGame:
         self.fruits = []
         self.spawn_fruit = pygame.USEREVENT + 1 # rozne identyfikatory eventow
         pygame.time.set_timer(self.spawn_fruit, 1000)
-        self.apple_img = pygame.image.load('./images/banana.png')
-        self.banana_img = pygame.image.load('./images/apple.png')
+        self.apple_img = pygame.image.load('./images/apple.png')
+        self.banana_img = pygame.image.load('./images/banana.png')
         self.fruit_type = [self.apple_img, self.banana_img]
 
     def _spawn_fruits(self):
-        image = random.choice(self.fruit_type)
-        self.fruits.append(Fruit(self, image))
+        fruit_data = random.choice([
+            {
+                "image": self.apple_img,
+                "points": 10,
+                "type": "apple"
+            },
+                {
+                "image": self.banana_img,
+                "points": 20,
+                "type": "banana"
+            },
+            ])
+        self.fruits.append(Fruit(self, fruit_data))
+
+    def _check_collisions(self):
+        for fruit in self.fruits[:]:
+            if self.catcher.catcher_rect.colliderect(fruit.fruit_rect):
+                self.fruits.remove(fruit)
 
 
     def _update_screen(self):
@@ -58,6 +74,7 @@ class FruitCollectorGame:
             self.catcher.move_catcher()
             for fruit in self.fruits:
                 fruit.move_fruit()
+                self._check_collisions()
             self._update_screen()
             self.clock.tick(60)
 
