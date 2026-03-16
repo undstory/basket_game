@@ -1,7 +1,7 @@
-# Basket Game
+# Fruit Collector Game
 
 Simple game made with Python and Pygame
-The player controls a basket and catches falling fruits to score points.
+The player controls a catcher and catches falling fruits to score points.
 
 ## Planned features:
 
