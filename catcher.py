@@ -4,8 +4,11 @@ class Catcher:
     def __init__(self, bg_game):
         self.screen = bg_game.screen
         self.screen_rect = self.screen.get_rect()
-        self.catcher_image = pygame.image.load('./images/catcher.png')
-        self.catcher_image = pygame.transform.scale(self.catcher_image, (120, 120))
+        self.empty_catcher_image = pygame.image.load('./images/catcher_empty.png')
+        self.full_catcher_image = pygame.image.load('./images/catcher_full.png')
+        self.empty_catcher_image = pygame.transform.scale(self.empty_catcher_image, (150, 150))
+        self.full_catcher_image = pygame.transform.scale(self.full_catcher_image, (150, 150))
+        self.catcher_image = self.empty_catcher_image
         self.catcher_rect = self.catcher_image.get_rect()
         self.catcher_rect.midbottom = self.screen_rect.midbottom
         self.moving_right = False
@@ -15,6 +18,10 @@ class Catcher:
     def blit_catcher(self):
         self.screen.blit(self.catcher_image, self.catcher_rect)
         pygame.draw.rect(self.screen, (255, 0, 0), self.get_catch_zone(), 2)
+
+    def set_full(self):
+        if self.catcher_image != self.full_catcher_image:
+            self.catcher_image = self.full_catcher_image
 
     def move_catcher(self):
         if self.moving_left and self.catcher_rect.left > 0:
