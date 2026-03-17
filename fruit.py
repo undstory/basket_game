@@ -14,6 +14,7 @@ class Fruit:
 
     def blit_fruit(self):
         self.screen.blit(self.fruit_image, self.fruit_rect)
+        pygame.draw.rect(self.screen, (255, 0, 0), self.fruit_rect, 2)
 
     def move_fruit(self):
         self.fruit_rect.y += 1

@@ -43,8 +43,10 @@ class FruitCollectorGame:
         self.fruits.append(Fruit(self, fruit_data))
 
     def _check_collisions(self):
+        catch_zone = self.catcher.get_catch_zone()
+
         for fruit in self.fruits[:]:
-            if self.catcher.catcher_rect.colliderect(fruit.fruit_rect):
+            if catch_zone.colliderect(fruit.fruit_rect):
                 if fruit.type == 'bomb':
                     self.explosions.append(Explosion(self, fruit.fruit_rect.centerx, fruit.fruit_rect.centery))
                 self.fruits.remove(fruit)

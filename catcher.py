@@ -14,9 +14,18 @@ class Catcher:
 
     def blit_catcher(self):
         self.screen.blit(self.catcher_image, self.catcher_rect)
+        pygame.draw.rect(self.screen, (255, 0, 0), self.get_catch_zone(), 2)
 
     def move_catcher(self):
         if self.moving_left and self.catcher_rect.left > 0:
             self.catcher_rect.x -= self.catcher_speed
         elif self.moving_right and self.catcher_rect.right < 1200:
             self.catcher_rect.x += self.catcher_speed
+
+    def get_catch_zone(self):
+        return pygame.Rect(
+            self.catcher_rect.left + 50,
+            self.catcher_rect.top +40,
+            self.catcher_rect.width -100,
+            self.catcher_rect.height -80
+        )
